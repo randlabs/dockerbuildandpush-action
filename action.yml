@@ -1,0 +1,37 @@
+name: 'Docker Build and Push'
+description: 'GitHub action to build and push a docker image into GitHub Container registry'
+author: 'RandLabs Inc.'
+
+branding:
+  color: "blue"
+  icon: "archive"
+
+inputs:
+  tag:
+    description: 'Tag name'
+    required: true
+  username:
+    description: 'Username used to log against the GitHub Container registry. Defaults to {github.actor} context variable.'
+    required: false
+  password:
+    description: 'Password or personal access token used to log against the GitHub Container registry. Defaults to GITHUB_TOKEN environment variable.'
+    required: false
+  labels:
+    description: 'Custom docker image labels.'
+    required: false
+  dockerfile:
+    description: 'Location of the dockerfile file. If relative, base path will be the "path" input.'
+    required: false
+  customdockerfile:
+    description: 'Custom dockerfile instructions. If present, will override "dockerfile" input.'
+    required: false
+  path:
+    description: 'Relative path under $GITHUB_WORKSPACE to set as the default directory. Defaults to "."'
+    required: false
+  repo:
+    description: 'Target repository in <owner-or-company>/<repository> format. Defaults to the one that fired the action.'
+    required: false
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
