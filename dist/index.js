@@ -174,6 +174,7 @@ function run() {
                 let args = ['login'];
                 args.push('--username', username);
                 args.push('--password-stdin');
+                args.push(REGISTRY_URL);
                 const res = yield exec.getExecOutput('docker', args, {
                     ignoreReturnCode: true,
                     cwd: basepath,

@@ -151,6 +151,7 @@ async function run(): Promise<void> {
 			let args: string[] = [ 'login' ];
 			args.push('--username', username);
 			args.push('--password-stdin');
+			args.push(REGISTRY_URL);
 
 			const res = await exec.getExecOutput('docker', args, {
 				ignoreReturnCode: true,
