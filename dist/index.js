@@ -144,6 +144,7 @@ function run() {
                 let args = ['build'];
                 args.push('--no-cache');
                 args.push('--progress', 'tty');
+                args.push('--file', dockerfile);
                 args.push('--tag', 'ghcr.io/' + owner + '/' + repo + ':' + tagName);
                 for (const label of buildLabels) {
                     args.push('--label', label);
