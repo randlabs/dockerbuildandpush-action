@@ -123,6 +123,7 @@ async function run(): Promise<void> {
 				args.push('--label', label);
 			}
 			args.push('--label', 'org.opencontainers.image.source=https://github.com/' + owner + '/' + repo);
+			args.push('.');
 
 			const res = await exec.getExecOutput('docker', args, {
 				ignoreReturnCode: true,
