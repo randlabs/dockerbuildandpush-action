@@ -193,27 +193,27 @@ function run() {
                 throw new Error(msg);
             }
             // Delete any existing image with the same tag
-            core.info('Deleting existing tagged container package if exists');
+            core.info('Checking for existing tagged container package');
             let packageId = 0;
-            for (let page = 0; packageId == 0 && page < 20; page += 1) {
+            for (let page = 1; packageId == 0 && page <= 20; page += 1) {
                 try {
                     const packagesInfo = yield octokit.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
                         package_type: 'container',
                         package_name: repo,
                         org: owner,
-                        state: 'active',
                         page,
-                        per_page: 100
+                        per_page: 100,
+                        state: 'active'
                     });
                     if (packagesInfo.status !== 200) {
                         throw new Error('Failed to retrieve the list of images');
                     }
                     for (const pkg of packagesInfo.data) {
-                        if (pkg.metadata && pkg.metadata.container) {
+                        if (pkg.metadata && pkg.metadata.container && pkg.metadata.container.tags) {
                             for (const tag of pkg.metadata.container.tags) {
                                 if (tag == tagName) {
                                     // found!
-                                    core.info('-> found existing');
+                                    core.info('-> Found. Deleting...');
                                     packageId = pkg.id;
                                     break;
                                 }
@@ -236,17 +236,24 @@ function run() {
                 }
             }
             if (packageId > 0) {
-                const deleteInfo = yield octokit.rest.packages.deletePackageForOrg({
-                    package_type: 'container',
-                    package_name: repo,
-                    org: owner,
-                    id: packageId
-                });
-                // Check status to ensure the package was deleted
-                if (deleteInfo.status !== 204 && deleteInfo.status !== 404) {
-                    throw new Error('Failed to delete existing package');
+                try {
+                    const deleteInfo = yield octokit.rest.packages.deletePackageForOrg({
+                        package_type: 'container',
+                        package_name: repo,
+                        org: owner,
+                        id: packageId
+                    });
+                    // Check status to ensure the package was deleted
+                    if (deleteInfo.status !== 204) {
+                        throw new Error('Failed to delete existing package');
+                    }
                 }
-                // 204, 404
+                catch (err) {
+                    // Handle release not found error
+                    if (err.status !== 404 && err.message !== 'Not Found') {
+                        throw err;
+                    }
+                }
             }
             // Prepare to push image
             core.info('Pushing image');
