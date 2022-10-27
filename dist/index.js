@@ -208,9 +208,11 @@ function run() {
                     if (packagesInfo.status !== 200) {
                         throw new Error('Failed to retrieve the list of images');
                     }
+                    core.info(JSON.stringify(packagesInfo.data));
                     for (const pkg of packagesInfo.data) {
                         if (pkg.metadata && pkg.metadata.container && pkg.metadata.container.tags) {
                             for (const tag of pkg.metadata.container.tags) {
+                                core.info(JSON.stringify({ tag, tagName }));
                                 if (tag == tagName) {
                                     // found!
                                     core.info('-> Found. Deleting...');
