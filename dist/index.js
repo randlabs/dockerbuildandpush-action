@@ -196,14 +196,23 @@ function run() {
             core.info('Checking for existing tagged container package');
             let packageId = 0;
             for (let page = 1; packageId == 0 && page <= 20; page += 1) {
+                core.info('page:' + page.toString());
                 try {
+                    core.info(JSON.stringify({
+                        package_type: 'container',
+                        package_name: repo,
+                        org: owner,
+                        page,
+                        per_page: 100,
+                        //state: 'active'
+                    }));
                     const packagesInfo = yield octokit.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
                         package_type: 'container',
                         package_name: repo,
                         org: owner,
                         page,
                         per_page: 100,
-                        state: 'active'
+                        //state: 'active'
                     });
                     if (packagesInfo.status !== 200) {
                         throw new Error('Failed to retrieve the list of images');
@@ -231,6 +240,7 @@ function run() {
                 }
                 catch (err) {
                     // Handle release not found error
+                    core.info('ERROR:' + JSON.stringify(err));
                     if (err.status !== 404 && err.message !== 'Not Found') {
                         throw err;
                     }
