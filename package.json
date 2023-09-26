@@ -1,6 +1,6 @@
 {
   "name": "dockerbuildandpush-action",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "GitHub action to build and push a docker image into GitHub Container registry",
   "main": "lib/main.js",
@@ -22,17 +22,16 @@
   "author": "RandLabs Inc.",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.10.1",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^5.1.1"
   },
   "devDependencies": {
-    "@types/node": "^18.11.5",
-    "@typescript-eslint/parser": "^5.41.0",
-    "@vercel/ncc": "^0.34.0",
-    "eslint": "^8.26.0",
-    "eslint-plugin-jest": "^27.1.3",
-    "js-yaml": "^4.1.0",
-    "typescript": "^4.8.4"
+    "@types/node": "^20.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vercel/ncc": "^0.38.0",
+    "eslint": "^8.50.0",
+    "typescript": "^5.2.2"
   }
 }
