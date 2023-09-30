@@ -13,7 +13,7 @@ inputs:
   username:
     description: 'Username used to log against the GitHub Container registry. Defaults to {github.actor} context variable.'
     required: false
-  password:
+  token:
     description: 'Password or personal access token used to log against the GitHub Container registry. Defaults to GITHUB_TOKEN environment variable.'
     required: false
   labels:
@@ -22,7 +22,7 @@ inputs:
   dockerfile:
     description: 'Location of the dockerfile file. If relative, base path will be the "path" input.'
     required: false
-  customdockerfile:
+  custom-dockerfile:
     description: 'Custom dockerfile instructions. If present, will override "dockerfile" input.'
     required: false
   path:

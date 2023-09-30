@@ -37,7 +37,7 @@ inputs:
   dockerfile:
     description: 'Location of the dockerfile file. Defaults to ./dockerfile. If a relative path is given, base path will be the "path" input.'
     required: false
-  customdockerfile:
+  custom-dockerfile:
     description: 'Custom dockerfile instructions. If present, will override "dockerfile" input.'
     required: false
   path:
